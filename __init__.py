@@ -11,6 +11,9 @@ from aqt.qt import *
 
 from .gui import TopologyDialog
 
+def indices(n: int) -> Iterable[int]:
+    return range(1, n + 1)
+
 class NoteTopology:
     def __init__(self, mw: aqt.AnkiQt) -> None:
         self.mw = mw
