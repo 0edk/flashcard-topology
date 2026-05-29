@@ -1,7 +1,6 @@
 from abc import abstractmethod
 from collections.abc import Iterable
 import re
-import sys
 from typing import Optional
 
 from anki.models import TemplateDict, NotetypeDict

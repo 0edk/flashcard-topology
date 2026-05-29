@@ -1,8 +1,8 @@
 from abc import abstractmethod
 from typing import Optional
-from anki.notes import Note, NoteId
-from aqt import AnkiQt
+from anki.notes import NoteId
 from aqt.qt import *
+from aqt.utils import ask_user_dialog, tr
 
 class TopologyDialog(QMainWindow):
     def __init__(
@@ -64,3 +64,23 @@ class TopologyDialog(QMainWindow):
 
     def reject(self) -> None:
         self.close()
+
+    # by analogy to qt/aqt/addcards.py
+    def keyPressEvent(self, evt: QKeyEvent | None) -> None:
+        def callback(choice: int) -> None:
+            if choice == 0:
+                self.close()
+        if evt and evt.key() == Qt.Key.Key_Escape:
+            if any(self.fields.values()):
+                ask_user_dialog(
+                    tr.adding_discard_current_input(),
+                    callback=callback,
+                    buttons=[
+                        QMessageBox.StandardButton.Discard,
+                        (tr.adding_keep_editing(), QMessageBox.ButtonRole.RejectRole),
+                    ],
+                )
+            else:
+                self.close()
+        else:
+            super().keyPressEvent(evt)
