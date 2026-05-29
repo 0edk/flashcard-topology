@@ -64,9 +64,3 @@ class TopologyDialog(QMainWindow):
 
     def reject(self) -> None:
         self.close()
-
-    def keyPressEvent(self, evt: QKeyEvent | None) -> None:
-        if evt and evt.key() == Qt.Key.Key_Escape:
-            self.close()
-        else:
-            super().keyPressEvent(evt)
