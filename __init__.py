@@ -48,6 +48,9 @@ class NoteTopology:
     def custom_css(self, order: int) -> str:
         return ""
 
+    def sort_field(self, order: int) -> int:
+        return 0
+
     def make_model(self, order: int) -> NotetypeDict:
         manager = self.mw.col.models
         model = manager.new(self.model_name(order))
@@ -55,6 +58,9 @@ class NoteTopology:
             manager.add_template(model, template)
         for field in self.make_fields(order):
             manager.add_field(model, manager.new_field(field))
+        sf = self.sort_field(order)
+        if sf != 0:
+            manager.set_sort_index(model, sf)
         model["css"] = (model["css"].replace("arial", "sans-serif") +
             "\n" + self.custom_css(order))
         return model
